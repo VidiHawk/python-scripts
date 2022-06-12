@@ -16,15 +16,17 @@ print(dirs)
 def resize_all():
     for item in dirs:
         if os.path.isfile(path + item):
-            im = Image.open(path + item)
-            f, e = os.path.splitext(path + item)
-            os.mkdir(f)
-
-            # Just create 2 new lines per image size required
-            imResize = im.resize((24, 24), Image.ANTIALIAS)
-            imResize.save(f + "/24resized.png", "PNG", quality=100)
-            imResize = im.resize((36, 36), Image.ANTIALIAS)
-            imResize.save(f + "/36resized.png", "PNG", quality=100)
+            if item.endswith(".png"):
+                im = Image.open(path + item)
+                # f, e = os.path.splitext(path + item)
+                # imResize = im.resize((24, 24), Image.ANTIALIAS)
+                # imResize.save(f + "/24resized.png", "PNG", quality=100)
+                # imResize = im.resize((36, 36), Image.ANTIALIAS)
+                # imResize.save(f + "/36resized.png", "PNG", quality=100)
+                im.thumbnail((180, 180), Image.ANTIALIAS)
+                # im = im.resize((180, 180), Image.ANTIALIAS)
+                # im.save(target_path + item + ".png", "PNG", quality=100)
+                im.save(target_path + item, "PNG", quality=100)
 
 
 def generate_icons(pic):
@@ -48,4 +50,5 @@ def generate_icons(pic):
     imResize.save("icon-512x512.png", "PNG", quality=100)
 
 
-generate_icons(pic)
+# generate_icons(pic)
+resize_all()
