@@ -8,7 +8,7 @@ import os, sys
 # The path will need to be played around with, this code worked with my Mac
 path = "/"
 dirs = os.listdir(path)
-pic = ""
+pic = "logo512.png"
 
 print(dirs)
 
@@ -30,8 +30,13 @@ def resize_all():
 
 
 def generate_icons(pic):
+
     im = Image.open(pic)
     # Just create 2 new lines per image size required
+    imResize = im.resize((16, 16), Image.ANTIALIAS)
+    imResize.save("icon-16x16.ico", "ICO", quality=100)
+    imResize = im.resize((32, 32), Image.ANTIALIAS)
+    imResize.save("icon-32x32.ico", "ICO", quality=100)
     imResize = im.resize((48, 48), Image.ANTIALIAS)
     imResize.save("icon-48x48.png", "PNG", quality=100)
     imResize = im.resize((72, 72), Image.ANTIALIAS)
@@ -50,5 +55,5 @@ def generate_icons(pic):
     imResize.save("icon-512x512.png", "PNG", quality=100)
 
 
-# generate_icons(pic)
-resize_all()
+generate_icons(pic)
+# resize_all()
