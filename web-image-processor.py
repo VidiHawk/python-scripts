@@ -1,19 +1,19 @@
 # Here are a few functions that may come handy when preparing imagery for a new website
 
-# You will have to install PIL using sudo pip3 install python-resize-image
+# You will have to install PIL using sudo pip3 install Pillow
 from xml.dom.minidom import parseString
 from PIL import Image
+from pathlib import Path
 import os, sys
 
-# The path will need to be played around with, this code worked with my Mac
-path = "/"
+path = "src/images/partners/"
 dirs = os.listdir(path)
-pic = "logo512.png"
+pic = "vidifx-icon.png"
 
 print(dirs)
 
 
-def resize_all():
+def resize_all_square_imgs():
     for item in dirs:
         if os.path.isfile(path + item):
             if item.endswith(".png"):
@@ -26,17 +26,54 @@ def resize_all():
                 im.thumbnail((180, 180), Image.ANTIALIAS)
                 # im = im.resize((180, 180), Image.ANTIALIAS)
                 # im.save(target_path + item + ".png", "PNG", quality=100)
-                im.save(target_path + item, "PNG", quality=100)
+                im.save(path + item, "PNG", quality=100)
+                print(path + item)
+
+
+def resize_all_based_on_width():
+    basewidth = 200
+    for item in dirs:
+        if os.path.isfile(path + item):
+            if item.endswith(".png"):
+                im = Image.open(path + item)
+                wpercent = basewidth / float(im.size[0])
+                hsize = int((float(im.size[1]) * float(wpercent)))
+                im = im.resize((basewidth, hsize), Image.ANTIALIAS)
+                im.save(path + item, "PNG", quality=100)
+                print(path + item)
+
+
+def resize_all_based_on_height():
+    baseheight = 50
+    for item in dirs:
+        if os.path.isfile(path + item):
+            if item.endswith(".png"):
+                im = Image.open(path + item)
+                hpercent = baseheight / float(im.size[1])
+                width = int((float(im.size[0]) * float(hpercent)))
+                im = im.resize((width, baseheight), Image.ANTIALIAS)
+                im.save(path + item, "PNG", quality=100)
+                print(path + item)
+
+
+def convert_to_webp(path):
+    # Convert all images in a folder to webp
+    print("starting...")
+    paths = Path(path).glob("*.png")
+    for path in paths:
+        webp_path = path.with_suffix(".webp")
+        image = Image.open(path)
+        image.save(webp_path, format="webp")
+        print(path)
 
 
 def generate_icons(pic):
-
     im = Image.open(pic)
     # Just create 2 new lines per image size required
     imResize = im.resize((16, 16), Image.ANTIALIAS)
-    imResize.save("icon-16x16.ico", "ICO", quality=100)
+    imResize.save("16x16favicon.ico", "ICO", quality=100)
     imResize = im.resize((32, 32), Image.ANTIALIAS)
-    imResize.save("icon-32x32.ico", "ICO", quality=100)
+    imResize.save("favicon.ico", "ICO", quality=100)
     imResize = im.resize((48, 48), Image.ANTIALIAS)
     imResize.save("icon-48x48.png", "PNG", quality=100)
     imResize = im.resize((72, 72), Image.ANTIALIAS)
@@ -46,14 +83,14 @@ def generate_icons(pic):
     imResize = im.resize((144, 144), Image.ANTIALIAS)
     imResize.save("icon-144x144.png", "PNG", quality=100)
     imResize = im.resize((192, 192), Image.ANTIALIAS)
-    imResize.save("icon-192x192.png", "PNG", quality=100)
+    imResize.save("logo192.png", "PNG", quality=100)
     imResize = im.resize((256, 256), Image.ANTIALIAS)
     imResize.save("icon-256x256.png", "PNG", quality=100)
     imResize = im.resize((384, 384), Image.ANTIALIAS)
     imResize.save("icon-384x384.png", "PNG", quality=100)
     imResize = im.resize((512, 512), Image.ANTIALIAS)
-    imResize.save("icon-512x512.png", "PNG", quality=100)
+    imResize.save("logo512.png", "PNG", quality=100)
 
 
-generate_icons(pic)
-# resize_all()
+# generate_icons(pic)
+resize_all_based_on_height()
