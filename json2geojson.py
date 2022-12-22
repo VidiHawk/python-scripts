@@ -15,14 +15,17 @@ geojson = {
         "type": "Feature",
         "geometry" : {
             "type": "Point",
-            "coordinates": [d["lon"], d["lat"]],
+            "coordinates": [d["longitude"], d["latitude"]],
             },
         "properties" : d,
      } for d in data]
 }
 
+# this loop will replace strings with integers:
+for i in geojson["features"]:
+    new_int = int(float(i["properties"]["capacity_mw"]))
+    i["properties"]["capacity_mw"] = new_int
+
 
 output = open(out_file, 'w')
 json.dump(geojson, output)
-
-print(geojson)
