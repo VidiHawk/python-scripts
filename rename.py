@@ -1,6 +1,5 @@
 ### This script renames all files in a directory.
 
-
 import os
 
 path = '/home/fox/'
