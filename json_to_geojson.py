@@ -22,17 +22,34 @@ geojson = {
      } for d in data]
 }
 
-
 for i in geojson["features"]:
     # replace strings with integers where appropriate:
     capacity_int = int(float(i["properties"]["capacity_mw"]))
     i["properties"]["capacity_mw"] = capacity_int
-    year_int = int(float(i["properties"]["commissioning_year"]))
-    i["properties"]["commissioning_year"] = year_int
-    
-
-    
+    if i["properties"]["commissioning_year"] == '':
+        i["properties"]["commissioning_year"] = None
+    else:
+        year_int = int(float(i["properties"]["commissioning_year"]))
+        i["properties"]["commissioning_year"] = year_int
+    # replace keys where appropriate:
+    i["properties"]['id'] = i["properties"].pop('gppd_idnr')
+    # erase empty fields:
+    delete_list = []
+    for attribute, value in i["properties"].items():
+        if value == "":
+            delete_list.append(attribute)
+    for attribute in delete_list:
+        del i["properties"][attribute]
+    # erase unwanted fields:
+    unwanted = ['latitude', 'longitude', 'source', 'url', 'geolocation_source', 'wepp_id', 'estimated_generation_note_2012', 'estimated_generation_note_2013', 'estimated_generation_note_2014', 'estimated_generation_note_2015', 'estimated_generation_note_2016', 'estimated_generation_note_2017', 'estimated_generation_note_2018', 'estimated_generation_note_2019', 'estimated_generation_note_2020', 'estimated_generation_note_2021', 'estimated_generation_note_2022']
+    for item in unwanted:
+        if i["properties"].get(item) is not None:
+            del i["properties"][item]  
+        else:
+            pass 
 
 
 output = open(out_file, 'w')
 json.dump(geojson, output)
+
+
