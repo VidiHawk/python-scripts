@@ -1,12 +1,12 @@
-### Next steps
-- in <code>web-image-processing.py</code>, replace <code>OS</code> in functions by <code>Path</code>
-
-
 # Data Processing Tools
 
 This is intended to grow into a library of useful data processing tools scripted in Python.
 
 # Index
+
+## Add header to any file
+
+This script will populate a copyright header accross all files in a directory.
 
 ## Image processing
 
@@ -28,11 +28,6 @@ This is intended to grow into a library of useful data processing tools scripted
 - [python 3](https://www.python.org/downloads/)
 - [pip3](https://pip.pypa.io/en/stable/)
 
-## Requirements
-
-- [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-  
-You'll know you did it right if you can run `git --version` and you see a response like `git version x.x.x`
 
 ## Setup
 
@@ -41,6 +36,14 @@ Clone this repo
 `git clone https://github.com/VidiHawk/python-scripts`
 
 `cd <your project's file>`
+
+Create a virtual environment:
+
+`pip install virtualenv`
+`python3 -m venv /path/to/new/virtual/environment`
+
+Activate it:
+`source /path/to/new/virtual/environment/bin/activate`
 
 Then install dependencies
 
